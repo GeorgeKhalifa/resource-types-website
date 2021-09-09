@@ -1,0 +1,18 @@
+name: CI
+on:
+  repository_dispatch:
+    types: [update_resources]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - run: git submodule update --init --recursive
+      - run: git submodule update --remote
+      - run: git config user.name github-actions
+      - run: git config user.email github-actions@github.com
+      - run: git add .
+      - run: git commit -s -m "update resource-types"
+      - run: git push
